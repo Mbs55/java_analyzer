@@ -1,2 +1,5 @@
 fastapi
 uvicorn
+ollama
+pydantic-settings
+pydantic
