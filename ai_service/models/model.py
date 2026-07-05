@@ -1,4 +1,4 @@
-from interface.llmService import LlmService
+from ai_service.models.interface.llmService import LlmService
 class model(LlmService):
     def __init__(self):
         super().__init__()
