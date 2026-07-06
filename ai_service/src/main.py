@@ -2,8 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.api.routes.health import router as health_router
-from src.api.routes.analyze import router as inference_router
-from src.api.routes.auth import router as auth_router
+from src.api.routes.analyze import router as analyze_router
 from src.infrastructure.config.config import get_settings
 
 settings = get_settings()
@@ -22,15 +21,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(health_router)
-app.include_router(inference_router, prefix=settings.api_prefix)
-app.include_router(threats_router, prefix=settings.api_prefix)
+app.include_router(health_router,prefix=settings.api_prefix)
+app.include_router(analyze_router)
 
 
 @app.get("/")
 async def root() -> dict[str, str]:
     return {
         "service": settings.app_name,
-        "status": "running",
-        "docs": "/docs",
+        "status": "running"
     }
