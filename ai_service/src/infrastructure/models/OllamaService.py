@@ -1,10 +1,11 @@
 from src.infrastructure.models.interface.llmService import LlmService
-from ollama import chat,ChatResponse
+from ollama import chat,ChatResponse,Client
 from src.api.schemas.analyze import AnalyzeRequest,AnalyzeResponse
 import json
+import os
 
 class model(LlmService):
-    def prompt(self,req:AnalyzeRequest)->AnalyzeResponse:
+    def prompt(self,rq:AnalyzeRequest):#->AnalyzeResponse:
         prompt:str=f"""
         Analyze the following Java method for security vulnerabilities.
 
@@ -28,7 +29,7 @@ class model(LlmService):
 
         Java Method:
 
-        {req.method}
+        {rq.method}
 
         Return ONLY valid JSON.
         """
@@ -104,21 +105,27 @@ class model(LlmService):
           ]
         }
         """
-        METHOD=req.method
-        response:ChatResponse=chat(
-            model="qwen2.5:7b",messages=[
-                {
-                    "role":"system",
-                    "content":system
-                },
-                {
-                    "role":"user",
-                    "content":prompt
-                }
-            ],stream=False
-        )
-        result=json.loads(response.message.content)
-        return AnalyzeResponse(**result)
+        METHOD=rq.method
+        Host=os.getenv("OLLAMA_HOST")
+        client=Client(host=Host)
+        try:
+            response:ChatResponse=client.chat(
+                model="qwen2.5:7b",messages=[
+                    {
+                        "role":"system",
+                        "content":system
+                    },
+                    {
+                        "role":"user",
+                        "content":prompt
+                    }
+                ],stream=False
+            )
+            result=json.loads(response.message.content)
+            return AnalyzeResponse(**result)
+        except Exception as e:
+            return AnalyzeResponse()
+
 # m=model()        
 # req = AnalyzeRequest(
 #     id=1,

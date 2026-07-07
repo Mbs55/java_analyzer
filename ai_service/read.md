@@ -4,4 +4,4 @@ first install the requirements using :
 pip install -r requirements.txt
 //////////////////
 then to start the service:
-uvicorn main:app --reload
+uvicorn src:main:app --reload
