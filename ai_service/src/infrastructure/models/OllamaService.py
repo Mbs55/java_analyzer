@@ -5,7 +5,7 @@ import json
 import os
 
 class model(LlmService):
-    def prompt(self,rq:AnalyzeRequest):#->AnalyzeResponse:
+    def prompt(self,req:AnalyzeRequest):#->AnalyzeResponse:
         prompt:str=f"""
         Analyze the following Java method for security vulnerabilities.
 
@@ -29,7 +29,7 @@ class model(LlmService):
 
         Java Method:
 
-        {rq.method}
+        {req.method}
 
         Return ONLY valid JSON.
         """
@@ -105,7 +105,7 @@ class model(LlmService):
           ]
         }
         """
-        METHOD=rq.method
+        METHOD=req.method
         Host=os.getenv("OLLAMA_HOST")
         client=Client(host=Host)
         try:
