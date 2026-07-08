@@ -5,8 +5,8 @@ from src.api.dependencies.model import get_model
 router=APIRouter(prefix="/AIService",tags=["AIService"])
 llm=model()
 @router.post("/analyze",response_model=AnalyzeResponse)
-async def analyze(method:AnalyzeRequest,llm:model=Depends(get_model))->AnalyzeResponse:
-     response=await llm.prompt(method)
+async def analyze(method:AnalyzeRequest,Llm:model=Depends(get_model))->AnalyzeResponse:
+     response=await Llm.prompt(method)
      return response
     
 
