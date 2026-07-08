@@ -6,8 +6,9 @@ router=APIRouter(prefix="/AIService",tags=["AIService"])
 llm=model()
 @router.post("/analyze",response_model=AnalyzeResponse)
 async def analyze(method:AnalyzeRequest,llm:model=Depends(get_model))->AnalyzeResponse:
-    response=llm.prompt(method)
-    return response
+     response=await llm.prompt(method)
+     return response
+    
 
 
 
