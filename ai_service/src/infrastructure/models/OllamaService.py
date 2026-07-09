@@ -8,42 +8,43 @@ from fastapi.concurrency import run_in_threadpool
 class model(LlmService):
     async def prompt(self,req:AnalyzeRequest)->AnalyzeResponse:
         METHOD=req.method
-        prompt:str=f"""
-        Analyze the following Java method for security vulnerabilities.
-        Analyze the following Java method.
+        # prompt:str=f"""
+        # Analyze the following Java method for security vulnerabilities.
+        # Analyze the following Java method.
 
-        Requirements:
+        # Requirements:
 
-        - Examine every line.
-        - Detect ALL vulnerabilities.
-        - Report every finding independently.
-        - Never stop after the first vulnerability.
-        - Use the JSON schema defined in the system prompt.
+        # - Examine every line.
+        # - Detect ALL vulnerabilities.
+        # - Report every finding independently.
+        # - Never stop after the first vulnerability.
+        # - Use the JSON schema defined in the system prompt.
 
-        Detect issues such as:
-        - SQL Injection
-        - XSS
-        - Command Injection
-        - Path Traversal
-        - Hardcoded Secrets
-        - Insecure Deserialization
-        - SSRF
-        - XXE
-        - LDAP Injection
-        - Code Injection
-        - Authentication flaws
-        - Authorization flaws
-        - Sensitive Data Exposure
-        - Cryptographic issues
-        - Any OWASP Top 10 vulnerability
-        - Any relevant CWE
+        # Detect issues such as:
+        # - SQL Injection
+        # - XSS
+        # - Command Injection
+        # - Path Traversal
+        # - Hardcoded Secrets
+        # - Insecure Deserialization
+        # - SSRF
+        # - XXE
+        # - LDAP Injection
+        # - Code Injection
+        # - Authentication flaws
+        # - Authorization flaws
+        # - Sensitive Data Exposure
+        # - Cryptographic issues
+        # - Any OWASP Top 10 vulnerability
+        # - Any relevant CWE
 
-        Java Method:
+        # Java Method:
 
-        {METHOD}
+        # {METHOD}
 
-        Return ONLY valid JSON.
-        """
+        # Return ONLY valid JSON.
+        # """
+        prompt=METHOD
         Host:str=os.getenv("OLLAMA_HOST")
         client=Client(host=Host)
         response:ChatResponse=await run_in_threadpool(
